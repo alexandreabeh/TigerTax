@@ -1,0 +1,48 @@
+﻿<Window x:Name="WindowTigerTax" x:Class="TigerTax.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TigerTax"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="TigerTax - Menu" Height="493.714" Width="721.66">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFDBB578" Offset="1"/>
+            <GradientStop Color="#FFDBA755"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="LabelMenuTItle" Content="TigerTax" HorizontalAlignment="Left" Height="90" Margin="10,33,0,26" Grid.Row="1" VerticalAlignment="Center" Width="305" Foreground="#FF764D0B" FontSize="58.667" FontWeight="SemiBold" RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="LabelMenuNewRecordName" Content="New Record Name" HorizontalAlignment="Left" Height="37" Margin="21,15,0,0" Grid.Row="3" VerticalAlignment="Top" Width="159" FontWeight="SemiBold" FontSize="16" Grid.RowSpan="2" Foreground="#FF074D3B"/>
+        <TextBox x:Name="TextBoxNewRecordName" HorizontalAlignment="Left" Height="28" Margin="21,0,0,0" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Center" Width="227" FontSize="13.333" AcceptsReturn="True" AcceptsTab="True" OpacityMask="Black" BorderThickness="2" SelectionBrush="#FF16765E"/>
+        <Button x:Name="ButtonMenuCreateNewRecord" Content="Create" HorizontalAlignment="Left" Height="20" Margin="21,10,0,0" Grid.Row="6" VerticalAlignment="Top" Width="83" Grid.RowSpan="2" Click="button_Click" ToolTip="Create a new record." FontSize="10.667" Background="#FF48BB9E" BorderBrush="#FF22594B"/>
+        <Label x:Name="LabelMenuOpen" Content="Open..." Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="25,21,0,0" Grid.Row="1" VerticalAlignment="Top" Width="122" Foreground="#FF764D0B" FontWeight="SemiBold"/>
+        <DataGrid x:Name="DataGridOpenRecord" Grid.Column="1" HorizontalAlignment="Left" Height="195" Margin="25,62,0,0" Grid.Row="1" Grid.RowSpan="7" VerticalAlignment="Top" Width="199" BorderBrush="#00688CAF" Background="#00F0F0F0" SelectionChanged="dataGrid_SelectionChanged" Foreground="#FF764D0B" AutoGenerateColumns="False" GridLinesVisibility="None"/>
+    </Grid>
+</Window>
