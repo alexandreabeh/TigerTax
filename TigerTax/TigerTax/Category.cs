@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,19 +10,24 @@ namespace TigerTax
 {
     public class Category
     {
-        public Category()
-        {
+        //public Category()
+        //{
 
-        }
-
+        //}
+        [Key]
         public int CategoryId { get; set; }
+        [Required]
+        [StringLength(100)]
         public String Name { get; set; }
+        [Required]
         public Double TotalAmount { get; set; }
+        [Required]
         public Double TotalMiles { get; set; }
 
         public ICollection<Category> Subcategories;
         public ICollection<Entry> Entries;
-        public Record RecordId { get; set; }
+
+        public virtual Record Record { get; set; }
 
         //public Category( String name)
         //{

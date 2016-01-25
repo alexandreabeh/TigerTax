@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
-using System.Data.SQLite;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FontAwesome.WPF;
 
 namespace TigerTax
 {
@@ -37,21 +38,12 @@ namespace TigerTax
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            using (var tigerTaxConnection = new SQLiteConnection(ConnectionString))
+            using (var db = new TigerTaxContext())
             {
-                tigerTaxConnection.Open();
-                // Comment out once this table is set the way it's supposed to be
-                string sqlDeleteRecordTable = "DROP TABLE IF EXISTS Records";
-                var dropCommand = new SQLiteCommand(sqlDeleteRecordTable, tigerTaxConnection);
-                dropCommand.ExecuteNonQuery();
-                string sqlCreateRecordTable =
-                    "CREATE TABLE IF NOT EXISTS Records (Id INTEGER PRIMARY KEY AUTOINCREMENT , Name VARCHAR NOT NULL , TotalAmount DOUBLE NOT NULL, DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
-                SQLiteCommand commandCreateRecordTable = new SQLiteCommand(sqlCreateRecordTable, tigerTaxConnection);
-                commandCreateRecordTable.ExecuteNonQuery();
+                WindowTigerTax.DataGridRecords.ItemsSource = db.Records.Local;
             }
-            //TigerTaxContext context = new TigerTaxContext();
-            //context.Records.OrderBy(c => c.DateUpdated).Load();
-            //DataGridOpenRecord.ItemsSource = context.Records.Local;
+
+            WindowTigerTax.Icon = ImageAwesome.CreateImageSource(FontAwesomeIcon.Paw, Brushes.Sienna);
         }
         
         private void button_Click(object sender, RoutedEventArgs e)
@@ -64,35 +56,47 @@ namespace TigerTax
             {
                 // Create new record and write it to the database, assign active record id and launch add category menu
                 // Strip any whitespace
-                using (var tigerTaxConnection = new SQLiteConnection(ConnectionString))
+                using ( var db = new TigerTaxContext() )
                 {
-                    var results = new List<Record>();
-                    tigerTaxConnection.Open();
-
-                    string sql = "INSERT INTO Records (Name, TotalAmount, DateModified) VALUES ('" + newFileName + "', 0, datetime('now'))";
-                    SQLiteCommand command = new SQLiteCommand(sql, tigerTaxConnection);
-                    command.ExecuteNonQuery();
-
-                    command.ExecuteNonQuery();
-
-                    string sqlselect = "SELECT * FROM Records";
-                    SQLiteCommand selectCommand = new SQLiteCommand(sqlselect, tigerTaxConnection);
-                    SQLiteDataReader reader = selectCommand.ExecuteReader();
-                    // working now!
-                    while (reader.Read())
+                    // Create and save a new record
+                    var record = new Record()
                     {
-                        var id = reader["Id"];
-                        var name = reader["Name"];
-                        var totalAmount = reader["TotalAmount"];
-                        var dateModified = reader["DateModified"];
+                        DateModified = DateTime.UtcNow,
+                        Name = newFileName,
+                        TotalAmount = 0
+                    };
+
+                    try
+                    {
+                        db.Records.Add(record);
+                        db.SaveChanges();
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                        throw;
+                    }                 
                 }
             }
         }
 
-        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DataGridRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // TODO: implement opening of the record
+        }
 
+        private void btnRenameRecord_Click(object sender, RoutedEventArgs e)
+        {
+            // validate valid file name
+            // update and save changes
+            // update the datagrid
+        }
+
+        private void btnDeleteRecord_Click(object sender, RoutedEventArgs e)
+        {
+            // confirm deletion
+            // delete and save changes
+            // find a good toast integration for confirmation of deletion
         }
     }
 }

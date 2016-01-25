@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Configuration;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Data.Entity;
-//using System.Data.Entity.Infrastructure.Design;
-//using System.Data.SQLite;
-//using System.Linq;
-//using System.Reflection;
-//using System.Text;
-//using System.Threading.Tasks;
 
-//namespace TigerTax
-//{
-//    class TigerTaxContext : DbContext
-//    {
-//        public TigerTaxContext()
-//            : base(new SQLiteConnection()
-//            {
-//                ConnectionString =
-//                    ConfigurationManager.ConnectionStrings["TigerTaxConnection"].ConnectionString
-//            }, true)
-//        {
-//            //string sqlCreateRecordTable =
-//            //    "CREATE TABLE IF NOT EXISTS Records (RowId INTEGER PRIMARY KEY AUTOINCREMENT , Name VARCHAR NOT NULL , TotalAmount DOUBLE NOT NULL , DateModified DATETIME NOT NULL )";
-//            //SQLiteCommand commandCreateRecordTable = new SQLiteCommand(sqlCreateRecordTable);
-//            //commandCreateRecordTable.ExecuteNonQuery();
-//        }
+namespace TigerTax
+{
+    class TigerTaxContext : DbContext
+    {
+        public TigerTaxContext() : base("name=TigerTaxConnection")
+        {
+            
+        }
 
-           
-//        //public DbSet<Record> Records { get; set; }
-//    }
-//}
+        public DbSet<Record> Records { get; set; }
+        public DbSet<Category> Categories { get; set; } 
+        public DbSet<Entry> Entries { get; set; }
+
+        //static TigerTaxContext()
+        //{
+        //    //Database initialize
+        //    Database.SetInitializer<TigerTaxContext>(new DbInitializer());
+        //    using (TigerTaxContext db = new TigerTaxContext())
+        //        db.Database.Initialize(false);
+        //}
+
+        //class DbInitializer : DropCreateDatabaseAlways<TigerTaxContext>
+        //{
+        //}
+    }
+}
